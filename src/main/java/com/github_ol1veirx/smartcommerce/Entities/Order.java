@@ -6,14 +6,15 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
+
 @Entity
 @Table(name = "tb_order")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
@@ -33,7 +34,7 @@ public class Order {
 
     public Order() {}
 
-    public Order(Instant moment, UUID id, OrderStatus status, User client, Payment payment) {
+    public Order(Instant moment, Long id, OrderStatus status, User client, Payment payment) {
         this.moment = moment;
         this.id = id;
         this.status = status;
@@ -41,11 +42,11 @@ public class Order {
         this.payment = payment;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -87,5 +88,19 @@ public class Order {
 
     public List<Product> getProducts() {
         return items.stream().map(x -> x.getProduct()).toList();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

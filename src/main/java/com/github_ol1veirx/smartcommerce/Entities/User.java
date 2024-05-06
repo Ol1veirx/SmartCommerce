@@ -5,15 +5,15 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     @Column(unique = true, nullable = false)
     private String email;
@@ -27,7 +27,7 @@ public class User {
 
     public User() {}
 
-    public User(UUID id, String password, String address, LocalDate birthday, String phone, String email, String name) {
+    public User(Long id, String password, String address, LocalDate birthday, String phone, String email, String name) {
         this.id = id;
         this.password = password;
         this.address = address;
@@ -37,11 +37,11 @@ public class User {
         this.name = name;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,5 +95,19 @@ public class User {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

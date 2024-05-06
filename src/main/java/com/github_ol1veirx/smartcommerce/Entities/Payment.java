@@ -3,15 +3,15 @@ package com.github_ol1veirx.smartcommerce.Entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.UUID;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_payment")
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
@@ -22,17 +22,17 @@ public class Payment {
 
     public Payment() {}
 
-    public Payment(Order order, Instant moment, UUID id) {
+    public Payment(Order order, Instant moment, Long id) {
         this.order = order;
         this.moment = moment;
         this.id = id;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,5 +50,19 @@ public class Payment {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Payment payment = (Payment) o;
+        return Objects.equals(id, payment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

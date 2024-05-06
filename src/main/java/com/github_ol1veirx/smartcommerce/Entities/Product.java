@@ -4,15 +4,15 @@ import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -30,7 +30,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(UUID id, String name, String description, Double price, String imageUrl) {
+    public Product(Long id, String name, String description, Double price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,11 +38,11 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,5 +88,19 @@ public class Product {
 
     public List<Order> getOrders() {
         return  items.stream().map(x -> x.getOrder()).toList();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
