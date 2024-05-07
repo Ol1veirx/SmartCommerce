@@ -3,11 +3,14 @@ package com.github_ol1veirx.smartcommerce.Services;
 import com.github_ol1veirx.smartcommerce.DTO.ProductDTO;
 import com.github_ol1veirx.smartcommerce.Entities.Product;
 import com.github_ol1veirx.smartcommerce.Repository.ProductRepository;
+import com.github_ol1veirx.smartcommerce.Services.Exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.lang.module.ResolutionException;
 
 @Service
 public class ProductService {
@@ -17,7 +20,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Product product = productRepository.findById(id).get();
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Product Not Found"));
         return new ProductDTO(product);
     }
 

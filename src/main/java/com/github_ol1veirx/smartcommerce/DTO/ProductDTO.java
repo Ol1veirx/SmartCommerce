@@ -10,8 +10,6 @@ public class ProductDTO {
     private Double price;
     private String imageUrl;
 
-    public ProductDTO() {}
-
     //Conversão de uma entidade para DTO
     public ProductDTO(Product entity) {
         id = entity.getId();
