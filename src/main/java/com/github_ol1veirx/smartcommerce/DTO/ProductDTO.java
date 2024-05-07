@@ -12,14 +12,7 @@ public class ProductDTO {
 
     public ProductDTO() {}
 
-    public ProductDTO(Long id, String name, String description, Double price, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
-
+    //Conversão de uma entidade para DTO
     public ProductDTO(Product entity) {
         id = entity.getId();
         name = entity.getName();
