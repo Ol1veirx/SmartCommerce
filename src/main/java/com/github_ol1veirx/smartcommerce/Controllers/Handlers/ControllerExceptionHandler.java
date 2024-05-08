@@ -1,6 +1,7 @@
 package com.github_ol1veirx.smartcommerce.Controllers.Handlers;
 
 import com.github_ol1veirx.smartcommerce.DTO.CustomError;
+import com.github_ol1veirx.smartcommerce.Services.Exceptions.DatabaseException;
 import com.github_ol1veirx.smartcommerce.Services.Exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.dialect.unique.CreateTableUniqueDelegate;
@@ -17,6 +18,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CustomError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomError> databaseException(DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
