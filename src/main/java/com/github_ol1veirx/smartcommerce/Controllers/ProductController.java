@@ -3,10 +3,12 @@ package com.github_ol1veirx.smartcommerce.Controllers;
 import com.github_ol1veirx.smartcommerce.DTO.ProductDTO;
 import com.github_ol1veirx.smartcommerce.Entities.Product;
 import com.github_ol1veirx.smartcommerce.Services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +36,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> create(@Valid @RequestBody ProductDTO productDTO) {
         productDTO = productService.create(productDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(productDTO.getId()).toUri();
@@ -42,7 +44,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable long id, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> update( @PathVariable long id, @Valid @RequestBody ProductDTO productDTO) {
         productDTO = productService.update(id, productDTO);
         return ResponseEntity.ok(productDTO);
     }

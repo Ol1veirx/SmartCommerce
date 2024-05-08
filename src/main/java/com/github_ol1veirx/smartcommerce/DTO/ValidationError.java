@@ -1,0 +1,25 @@
+package com.github_ol1veirx.smartcommerce.DTO;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ValidationError extends CustomError {
+    private List<FieldMessage> errors = new ArrayList<FieldMessage>();
+
+    public ValidationError(Instant timestamp, Integer status, String error, String path, List<FieldMessage> erros) {
+        super(timestamp, status, error, path);
+        this.errors = erros;
+    }
+    public ValidationError(Instant timestamp, Integer status, String error, String path) {
+        super(timestamp, status, error, path);
+    }
+
+    public List<FieldMessage> getErrors() {
+        return errors;
+    }
+
+    public void addError(String fieldName, String message) {
+        errors.add(new FieldMessage(fieldName, message));
+    }
+}

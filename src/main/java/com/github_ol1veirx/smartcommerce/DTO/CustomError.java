@@ -1,6 +1,7 @@
 package com.github_ol1veirx.smartcommerce.DTO;
 
 import java.time.Instant;
+import java.util.List;
 
 public class CustomError {
     private Instant timestamp;

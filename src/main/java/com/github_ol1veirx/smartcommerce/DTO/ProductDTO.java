@@ -1,13 +1,22 @@
 package com.github_ol1veirx.smartcommerce.DTO;
 
 import com.github_ol1veirx.smartcommerce.Entities.Product;
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.*;
 
 public class ProductDTO {
     private Long id;
+
+    @Size(min = 2, max = 80, message = "Min value in field is 2 and max 80")
+    @NotBlank(message = "Required field")
     private String name;
+
+    @Size(min = 10, message = "Min value in field is 10 characters")
+    @NotBlank(message = "Required field")
     private String description;
+
+    @Positive(message = "Price required positive")
     private Double price;
+
     private String imageUrl;
 
     private ProductDTO() {}

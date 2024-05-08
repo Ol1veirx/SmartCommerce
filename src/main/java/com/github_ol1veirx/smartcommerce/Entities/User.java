@@ -1,6 +1,7 @@
 package com.github_ol1veirx.smartcommerce.Entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
